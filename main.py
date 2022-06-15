@@ -120,10 +120,9 @@ class DB(SheetsExemplar):
                     delivery_date = datetime.datetime.strptime(i[3], ("%d.%m.%Y"))
                     try:
                         cursor.execute("INSERT INTO estimate (id, order_number, cost_USD, cost_RUB, delivery_date) VALUES (%s, %s, %s, %s, %s)", (str(id), str(order), usd, rub, str(delivery_date)))
-                        print ("[INFO] failed to add data to the database")
                     except Exception as ex:
                         print ("[ERROR] failed to add data to the database", ex)
-        
+                print ("[INFO] data was successfully added to the database")
 
 def loop_decorator(func):
     def wrapper ():
@@ -141,8 +140,7 @@ def loop_decorator(func):
 
 @loop_decorator
 def get_data_from_google_api (currency_value):
-    print (DB(currency_value).enter_data())
-    return
+    return (DB(currency_value).enter_data())
 
 if __name__ == "__main__":
     print (get_data_from_google_api())

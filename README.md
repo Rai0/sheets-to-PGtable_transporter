@@ -1,6 +1,6 @@
 # Как развернуть
 
-    1. Создать в Google Developers Console (https://console.cloud.google.com/apis/dashboard) создать проект и подключить к нему Google Sheets и Google Drive.
+    1. Создать в [Google Developers Console](https://console.cloud.google.com/apis/dashboard) создать проект и подключить к нему Google Sheets и Google Drive.
     2. В ранее созданном проекте создать Service Accounts и скачать его токен в виде josn файла.
     3. Клонировать репозиторий `git clone https://github.com/Rai0/tt.git`.
     4. Ранее скаченный токен Google Service Account переименовать в token.json и с копировать в папку клонированного репозитория.

@@ -13,8 +13,6 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
-
-
 SHEET_ID = os.environ.get("SHEET_ID")
 API_TOKEN_FILE = "token.json"
 TABLE_RANGE = "A2:D51"
@@ -81,6 +79,7 @@ class DB(SheetsExemplar):
         self.RUB = RUB
     
     def db_connect_decorator (func):
+        """декоратор для подключения к базе данных"""
         def decorator_wrapper (self):
             connect = psycopg2.connect (
                 host = self.host,
@@ -95,6 +94,7 @@ class DB(SheetsExemplar):
 
     @db_connect_decorator
     def _clear_db (self, connect) -> None:
+        """функция сщздающая/проверющая таблицу и очищающая ее"""
         with connect.cursor () as cursor:
             cursor.execute (
                 """CREATE TABLE IF NOT EXISTS estimate(
@@ -109,6 +109,7 @@ class DB(SheetsExemplar):
 
     @db_connect_decorator
     def enter_data (self, connect) -> None:
+        """функция добовлющая данные в таблицу"""
         if super().value:
             self._clear_db()
             with connect.cursor () as cursor:
@@ -125,6 +126,7 @@ class DB(SheetsExemplar):
                 print ("[INFO] data was successfully added to the database")
 
 def loop_decorator(func):
+    """функция бесконечного цикла, которая в целях 'экономии' рессурсов зпарашивает ноый курс доллора раз в день"""
     def wrapper ():
         print ("[INFO] loop start")
         last_update_date = None
@@ -143,4 +145,4 @@ def get_data_from_google_api (currency_value):
     return (DB(currency_value).enter_data())
 
 if __name__ == "__main__":
-    print (get_data_from_google_api())
+    get_data_from_google_api()
